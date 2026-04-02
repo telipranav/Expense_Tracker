@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Register — Expense Tracker</title>
+</head>
+<body>
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <div class="auth-logo">💰</div>
+        <h1 class="auth-title">Create Account</h1>
+        <p class="auth-subtitle">Start tracking your expenses today</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form action="/register" method="POST" class="auth-form">
+            <div class="input-group">
+                <span class="input-icon">👤</span>
+                <input type="text" name="username" placeholder="Full Name" required>
+            </div>
+            <div class="input-group">
+                <span class="input-icon">📧</span>
+                <input type="email" name="email" placeholder="Email Address" required>
+            </div>
+            <div class="input-group">
+                <span class="input-icon">🔒</span>
+                <input type="password" name="password" placeholder="Password" minlength="6" required>
+            </div>
+            <button type="submit" class="btn-auth">Create Account</button>
+        </form>
+
+        <p class="auth-switch">Already have an account? <a href="/login">Login</a></p>
+    </div>
+</div>
+</body>
+</html>

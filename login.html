@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Login — Expense Tracker</title>
+</head>
+<body>
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <div class="auth-logo">💰</div>
+        <h1 class="auth-title">Welcome Back</h1>
+        <p class="auth-subtitle">Login to your account</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form action="/login" method="POST" class="auth-form">
+            <div class="input-group">
+                <span class="input-icon">📧</span>
+                <input type="email" name="email" placeholder="Email Address" required>
+            </div>
+            <div class="input-group">
+                <span class="input-icon">🔒</span>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn-auth">Login</button>
+        </form>
+
+        <p class="auth-switch">Don't have an account? <a href="/register">Register</a></p>
+    </div>
+</div>
+</body>
+</html>

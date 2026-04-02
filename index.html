@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Expense Tracker</title>
+</head>
+<body>
+<div class="container">
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <span class="nav-logo"> Expense Tracker</span>
+        <div class="nav-right">
+            <span class="nav-user">
+{{ username }}</span>
+            <a href="/logout" class="btn-logout">Logout</a>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary">
+        <div class="card balance">
+            <div class="label">Balance</div>
+            <div class="amount">₹{{ balance }}</div>
+        </div>
+        <div class="card income">
+            <div class="label">Total Income</div>
+            <div class="amount">₹{{ total_income }}</div>
+        </div>
+        <div class="card expense">
+            <div class="label">Total Expense</div>
+            <div class="amount">₹{{ total_expense }}</div>
+        </div>
+    </div>
+
+    <!-- Add Transaction Form -->
+    <div class="form-card">
+        <h2>➕ Add Transaction</h2>
+        <form action="/add" method="POST">
+            <div class="form-row">
+                <input type="text" name="title" placeholder="Title (e.g. Salary, Rent)" required>
+                <input type="number" name="amount" placeholder="Amount" min="1" required>
+                <select name="type">
+                    <option value="income">📈 Income</option>
+                    <option value="expense">📉 Expense</option>
+                </select>
+                <button type="submit" class="btn-add">Add</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Transactions List -->
+    <div class="transactions-card">
+        <h2>📋 Transactions ({{ transactions | length }})</h2>
+
+        {% if transactions %}
+            {% for t in transactions %}
+            <div class="transaction-item {{ t.type }}">
+                <div class="t-info">
+                    <span class="t-title">{{ t.title }}</span>
+                    <span class="t-meta">{{ t.type }}</span>
+                </div>
+                <div class="t-right">
+                    <span class="t-amount">
+                        {% if t.type == 'income' %}+{% else %}-{% endif %}₹{{ t.amount }}
+                    </span>
+                    <a href="/delete/{{ t._id }}" class="btn-delete"
+                       onclick="return confirm('Delete this transaction?')">Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">No transactions yet. Add one above! 👆</div>
+        {% endif %}
+    </div>
+
+</div>
+</body>
+</html>
